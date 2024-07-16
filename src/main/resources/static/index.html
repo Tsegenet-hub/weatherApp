@@ -5,29 +5,35 @@
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-<h1>Weather App</h1>
+<div class="container">
+    <header>
+        <h1>Weather App</h1>
+    </header>
 
-<!-- Section 1: Search Zip Code -->
-<section id="searchSection">
-    <h2>Search Weather by Zip Code</h2>
-    <form id="weatherForm">
-        <input type="text" id="zipCode" placeholder="Enter Zip Code" required>
-        <button type="submit">Get Weather</button>
-    </form>
-    <div id="weatherResult"></div>
-</section>
+    <section id="searchSection">
+        <h2>Search Weather by Zip Code</h2>
+        <form id="weatherForm">
+            <input type="text" id="zipCode" placeholder="Enter Zip Code" required>
+            <button type="submit">Get Weather</button>
+        </form>
+        <div id="weatherResult"></div>
+    </section>
 
-<!-- Section 2: Add Zip Code to List -->
-<section id="listSection">
-    <h2>Add Zip Code to List</h2>
-    <form id="addZipForm">
-        <input type="text" id="addZipCode" placeholder="Enter Zip Code to Add" required>
-        <button type="submit">Add to List</button>
-    </form>
-    <h2>Saved Zip Codes</h2>
-    <ul id="zipCodeList"></ul>
-    <div id="savedWeatherResults"></div>
-</section>
+    <section id="listSection">
+        <h2>Add Zip Code to List</h2>
+        <form id="addZipForm">
+            <input type="text" id="addZipCode" placeholder="Enter Zip Code to Add" required>
+            <button type="submit">Add to List</button>
+        </form>
+        <h2>Saved Zip Codes</h2>
+        <ul id="zipCodeList"></ul>
+        <div id="savedWeatherResults"></div>
+    </section>
+</div>
+
+<footer>
+    <p>&copy; 2024 Weather App. All rights reserved.</p>
+</footer>
 
 <script src="/js/script.js"></script>
 </body>

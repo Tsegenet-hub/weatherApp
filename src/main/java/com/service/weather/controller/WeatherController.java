@@ -19,14 +19,5 @@ public class WeatherController {
         return weatherService.getWeatherByZipCode(zipCode);
     }
 
-//    @PostMapping("/add")
-//    public WeatherRecord addWeatherRecord(@RequestParam String zipCode, @RequestParam double temperature) {
-//        return weatherService.saveWeatherRecord(zipCode, temperature);
-//    }
-//
-//    @GetMapping("/all")
-//    public List<WeatherRecord> getAllWeatherRecords() {
-//        return weatherService.getAllRecords();
-//    }
 }
 

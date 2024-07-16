@@ -22,8 +22,6 @@ public class WeatherService {
         String url = String.format("%s?zip=%s,us&units=imperial&appid=%s", BASE_URL, zipCode, apiKey);
         OpenWeatherMapResponse response = restTemplate.getForObject(url, OpenWeatherMapResponse.class);
 
-//        OpenWeatherMapResponse response = restTemplate.getForObject("https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=5f40dfe3704a02e2e7a64d58dcefc566", OpenWeatherMapResponse.class);
-
         if (response != null) {
             WeatherRecord record = new WeatherRecord();
             record.setZipCode(zipCode);
@@ -33,6 +31,4 @@ public class WeatherService {
             throw new RuntimeException("Unable to fetch weather data");
         }
     }
-
-    // Other methods...
 }
