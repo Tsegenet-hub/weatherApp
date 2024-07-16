@@ -7,14 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const zipCodeList = document.getElementById('zipCodeList');
     const savedWeatherResults = document.getElementById('savedWeatherResults');
 
+    // Load stored zip codes and display weather for each
     loadStoredZipCodes();
 
+    // Add event listener to the weather form
     weatherForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const zipCode = zipCodeInput.value;
         fetchWeather(zipCode, weatherResult);
     });
 
+    // Add event listener to the add zip code form
     addZipForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const zipCode = addZipCodeInput.value;
@@ -23,7 +26,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function fetchWeather(zipCode, resultElement) {
         fetch(`/api/weather?zipCode=${zipCode}`)
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 400 || response.status === 500) {
+                    throw new Error('Invalid zip code');
+                }
+                return response.json();
+            })
             .then(data => {
                 const weatherIcon = getWeatherIcon(data.temperature);
                 const weatherInfo = `
@@ -38,7 +46,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error fetching weather data:', error);
-                resultElement.innerHTML = 'Error fetching weather data';
+                if (error.message === 'Invalid zip code') {
+                    alert('The provided zip code does not exist. Please enter a valid zip code.');
+                    resultElement.innerHTML = 'Error: Invalid zip code';
+                } else {
+                    resultElement.innerHTML = 'Error fetching weather data';
+                }
             });
     }
 
@@ -53,13 +66,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function addZipCodeToList(zipCode) {
-        let storedZipCodes = JSON.parse(localStorage.getItem('zipCodes')) || [];
-        if (!storedZipCodes.includes(zipCode)) {
-            storedZipCodes.push(zipCode);
-            localStorage.setItem('zipCodes', JSON.stringify(storedZipCodes));
-            displayStoredZipCodes(storedZipCodes);
-            fetchWeatherForSavedZipCode(zipCode);
-        }
+        const tempResultElement = document.createElement('div');
+        fetch(`/api/weather?zipCode=${zipCode}`)
+            .then(response => {
+                if (response.status === 400 || response.status === 500) {
+                    throw new Error('Invalid zip code');
+                }
+                return response.json();
+            })
+            .then(data => {
+                let storedZipCodes = JSON.parse(localStorage.getItem('zipCodes')) || [];
+                if (!storedZipCodes.includes(zipCode)) {
+                    storedZipCodes.push(zipCode);
+                    localStorage.setItem('zipCodes', JSON.stringify(storedZipCodes));
+                    displayStoredZipCodes(storedZipCodes);
+                    fetchWeatherForSavedZipCode(zipCode);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching weather data:', error);
+                if (error.message === 'Invalid zip code') {
+                    alert('The provided zip code does not exist. Please enter a valid zip code.');
+                }
+            });
     }
 
     function loadStoredZipCodes() {
