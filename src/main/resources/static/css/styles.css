@@ -89,22 +89,58 @@ button:hover {
     flex: 1;
 }
 
-.weather-info {
+.weather-container {
     display: flex;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.weather-header, .weather-details {
+    flex: 1;
+    margin: 10px;
+}
+
+.weather-header {
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex: 2;
-    text-align: center;
+    border-right: 2px solid #ccc;
+    padding-right: 20px;
+}
+
+.city-name {
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .weather-icon {
     width: 50px;
     height: 50px;
-    margin-right: 10px;
+}
+
+.temperature {
+    font-size: 2em;
+    color: #f39c12;
+}
+
+.weather-details {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #000;
 }
 
 .weather-details p {
-    margin: 0;
+    margin: 5px 0;
 }
 
 #zipCodeList li button {

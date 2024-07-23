@@ -26,6 +26,13 @@ public class WeatherService {
             WeatherRecord record = new WeatherRecord();
             record.setZipCode(zipCode);
             record.setTemperature(response.getMain().getTemp());
+            record.setFeelsLike(response.getMain().getFeels_like());
+            record.setTempMin(response.getMain().getTemp_min());
+            record.setTempMax(response.getMain().getTemp_max());
+            record.setHumidity(response.getMain().getHumidity());
+            record.setWindSpeed(response.getWind().getSpeed());
+            record.setCity(response.getName());
+            record.setIcon(response.getWeather().get(0).getIcon());
             return record;
         } else {
             throw new RuntimeException("Unable to fetch weather data");

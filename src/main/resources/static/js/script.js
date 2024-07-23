@@ -20,30 +20,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listener to the add zip code form
     addZipForm.addEventListener('submit', function(event) {
         event.preventDefault();
-        const zipCode = addZipCodeInput.value;
+        const zipCode = addZipCode.value;
         addZipCodeToList(zipCode);
     });
 
     function fetchWeather(zipCode, resultElement) {
         fetch(`/api/weather?zipCode=${zipCode}`)
             .then(response => {
-                if (response.status === 400 || response.status === 500) {
+                if (response.status === 500) {
                     throw new Error('Invalid zip code');
                 }
                 return response.json();
             })
             .then(data => {
-                const weatherIcon = getWeatherIcon(data.temperature);
-                const weatherInfo = `
-                    <div class="weather-info">
-                        <img src="${weatherIcon}" alt="Weather Icon" class="weather-icon" onerror="this.onerror=null; this.src='/images/default.png';">
-                        <div class="weather-details">
-                            <p>${data.temperature} °F</p>
+                    const weatherIcon = getWeatherIcon(data.temperature);
+                    const weatherInfo = `
+                        <div id="weatherResult" class="weather-container">
+                            <div class="weather-header">
+                                <div class="city-name">${data.city}</div>
+                                <img src="${weatherIcon}" alt="Weather Icon" class="weather-icon" onerror="this.onerror=null; this.src='/images/default.png';">
+                                <div class="temperature">${data.temperature} °F</div>
+                            </div>
+                            <div class="weather-details">
+                                <p>Feels Like: ${data.feelsLike} °F</p>
+                                <p>Min Temp: ${data.tempMin} °F</p>
+                                <p>Max Temp: ${data.tempMax} °F</p>
+                                <p>Humidity: ${data.humidity} %</p>
+                                <p>Wind Speed: ${data.windSpeed} mph</p>
+                            </div>
                         </div>
-                    </div>
-                `;
-                resultElement.innerHTML = weatherInfo;
-            })
+                    `;
+                    resultElement.innerHTML = weatherInfo;
+                }
+            )
             .catch(error => {
                 console.error('Error fetching weather data:', error);
                 if (error.message === 'Invalid zip code') {
@@ -69,19 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const tempResultElement = document.createElement('div');
         fetch(`/api/weather?zipCode=${zipCode}`)
             .then(response => {
-                if (response.status === 400 || response.status === 500) {
+                if (response.status === 400) {
                     throw new Error('Invalid zip code');
                 }
                 return response.json();
             })
             .then(data => {
-                let storedZipCodes = JSON.parse(localStorage.getItem('zipCodes')) || [];
-                if (!storedZipCodes.includes(zipCode)) {
-                    storedZipCodes.push(zipCode);
-                    localStorage.setItem('zipCodes', JSON.stringify(storedZipCodes));
-                    displayStoredZipCodes(storedZipCodes);
-                    fetchWeatherForSavedZipCode(zipCode);
-                }
+                    let storedZipCodes = JSON.parse(localStorage.getItem('zipCodes')) || [];
+                    if (!storedZipCodes.includes(zipCode)) {
+                        storedZipCodes.push(zipCode);
+                        localStorage.setItem('zipCodes', JSON.stringify(storedZipCodes));
+                        displayStoredZipCodes(storedZipCodes);
+                        fetchWeatherForSavedZipCode(zipCode);
+                    }
             })
             .catch(error => {
                 console.error('Error fetching weather data:', error);
