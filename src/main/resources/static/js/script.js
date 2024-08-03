@@ -35,7 +35,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                    const weatherIcon = getWeatherIcon(data.temperature);
+                    // users icon url from backend
+                    const weatherIcon = data.icon;
                     const weatherInfo = `
                         <div id="weatherResult" class="weather-container">
                             <div class="weather-header">
@@ -64,16 +65,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     resultElement.innerHTML = 'Error fetching weather data';
                 }
             });
-    }
-
-    function getWeatherIcon(temperature) {
-        if (temperature <= 32) {
-            return '/images/snowflake.png';
-        } else if (temperature <= 60) {
-            return '/images/cloudy.png';
-        } else {
-            return '/images/sunny.png';
-        }
     }
 
     function addZipCodeToList(zipCode) {

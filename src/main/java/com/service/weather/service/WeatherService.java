@@ -17,6 +17,7 @@ public class WeatherService {
     private String apiKey;
 
     private final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather";
+    private final String ICON_URL = "https://openweathermap.org/img/wn/";
 
     public WeatherRecord getWeatherByZipCode(String zipCode) {
         String url = String.format("%s?zip=%s,us&units=imperial&appid=%s", BASE_URL, zipCode, apiKey);
@@ -32,7 +33,9 @@ public class WeatherService {
             record.setHumidity(response.getMain().getHumidity());
             record.setWindSpeed(response.getWind().getSpeed());
             record.setCity(response.getName());
-            record.setIcon(response.getWeather().get(0).getIcon());
+            String iconCode = response.getWeather().get(0).getIcon();
+            String iconUrl = String.format("%s%s@2x.png", ICON_URL, iconCode);
+            record.setIcon(iconUrl);
             return record;
         } else {
             throw new RuntimeException("Unable to fetch weather data");
