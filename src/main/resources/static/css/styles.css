@@ -157,3 +157,50 @@ button:hover {
 #zipCodeList li button:hover {
     background-color: #fc913a;
 }
+
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px 0;
+}
+
+#popularZipCodeList {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#popularZipCodeList li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    min-width: 100px;
+    border: 1px solid #fff;
+}
+
+#popularZipCodeList li span {
+    margin-bottom: 5px;
+}
+
+#popularZipCodeList li button {
+    margin-top: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ff4e50;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#popularZipCodeList li button:hover {
+    background-color: #fc913a;
+}

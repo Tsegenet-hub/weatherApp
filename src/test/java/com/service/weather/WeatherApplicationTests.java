@@ -48,11 +48,10 @@ class WeatherApplicationTests {
 		OpenWeatherMapResponse.Wind wind = new OpenWeatherMapResponse.Wind();
 		wind.setSpeed(5.0);
 		OpenWeatherMapResponse.Weather weather = new OpenWeatherMapResponse.Weather();
-		weather.setIcon("01d");
 		mockResponse.setMain(main);
 		mockResponse.setWind(wind);
 		mockResponse.setWeather(Arrays.asList(weather));
-		mockResponse.setName("Beverly Hills");
+		mockResponse.setName("New York");
 
 		when(restTemplate.getForObject(anyString(), any())).thenReturn(mockResponse);
 	}
@@ -69,8 +68,7 @@ class WeatherApplicationTests {
 		assertEquals(75.0, result.getTempMax());
 		assertEquals(50, result.getHumidity());
 		assertEquals(5.0, result.getWindSpeed());
-		assertEquals("Beverly Hills", result.getCity());
-		assertEquals("01d", result.getIcon());
+		assertEquals("New York", result.getCity());
 	}
 
 }

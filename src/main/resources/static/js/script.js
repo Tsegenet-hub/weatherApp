@@ -6,9 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const weatherResult = document.getElementById('weatherResult');
     const zipCodeList = document.getElementById('zipCodeList');
     const savedWeatherResults = document.getElementById('savedWeatherResults');
+    const popularZipCodeList = document.getElementById('popularZipCodeList');
 
     // Load stored zip codes and display weather for each
     loadStoredZipCodes();
+    loadZipCodesFromDB();
 
     // Add event listener to the weather form
     weatherForm.addEventListener('submit', function(event) {
@@ -78,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const tempResultElement = document.createElement('div');
         fetch(`/api/weather?zipCode=${zipCode}`)
             .then(response => {
-                if (response.status === 400) {
+                if (response.status === 500) {
                     throw new Error('Invalid zip code');
                 }
                 return response.json();
@@ -106,6 +108,17 @@ document.addEventListener('DOMContentLoaded', function() {
         storedZipCodes.forEach(zipCode => fetchWeatherForSavedZipCode(zipCode));
     }
 
+    function loadZipCodesFromDB() {
+        fetch('/api/zipcodes')
+            .then(response => response.json())
+            .then(data => {
+                const zipCodes = data.map(item => item.zipCode);
+                displayPopularZipCodes(zipCodes);
+                zipCodes.forEach(zipCode => fetchWeatherForPopularZipCode(zipCode));
+            })
+            .catch(error => console.error('Error fetching zip codes from DB:', error));
+    }
+
     function displayStoredZipCodes(zipCodes) {
         zipCodeList.innerHTML = '';
         zipCodes.forEach(zipCode => {
@@ -128,6 +141,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
             zipCodeList.appendChild(listItem);
         });
+    }
+
+    function displayPopularZipCodes(zipCodes) {
+        popularZipCodeList.innerHTML = '';
+        zipCodes.forEach(zipCode => {
+            const listItem = document.createElement('li');
+
+            const zipCodeText = document.createElement('span');
+            zipCodeText.textContent = zipCode;
+
+            const resultElement = document.createElement('div');
+            resultElement.id = `popularWeatherResult-${zipCode}`;
+            resultElement.classList.add('weather-info');
+
+            listItem.appendChild(zipCodeText);
+            listItem.appendChild(resultElement);
+
+            popularZipCodeList.appendChild(listItem);
+        });
+    }
+
+    function fetchWeatherForPopularZipCode(zipCode) {
+        const resultElement = document.getElementById(`popularWeatherResult-${zipCode}`);
+        if (resultElement) {
+            fetchWeather(zipCode, resultElement);
+        }
     }
 
     function fetchWeatherForSavedZipCode(zipCode) {
