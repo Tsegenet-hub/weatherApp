@@ -10,10 +10,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-
 import static org.mockito.Mockito.*;
 
+/**
+ * The DataInitializerTest class tests the DataInitializer class to ensure that it initializes the database correctly.
+ * It uses Mockito to mock the ZipCodeRepository and verifies interactions with it.
+ */
 @ExtendWith(MockitoExtension.class)
 public class DataInitializerTest {
 
@@ -31,15 +33,23 @@ public class DataInitializerTest {
 
     @Test
     public void testInit() {
+        when(zipCodeRepository.count()).thenReturn(0L);
+
         dataInitializer.init();
 
-        verify(zipCodeRepository, times(1)).saveAll(
-            Arrays.asList(
-                    new ZipCode(null, "Plano", "75075"),
-                    new ZipCode(null, "New York", "10001"),
-                    new ZipCode(null, "San Francisco", "94114")
-            )
-        );
+        verify(zipCodeRepository, times(1)).count();
+
+        verify(zipCodeRepository, times(1)).save(argThat(zipCode ->
+                zipCode.getCity().equals("New York") && zipCode.getZipCode().equals("10001")
+        ));
+
+        verify(zipCodeRepository, times(1)).save(argThat(zipCode ->
+                zipCode.getCity().equals("San Francisco") && zipCode.getZipCode().equals("94114")
+        ));
+
+        verify(zipCodeRepository, times(1)).save(argThat(zipCode ->
+                zipCode.getCity().equals("Plano") && zipCode.getZipCode().equals("75075")
+        ));
     }
 
     @Test

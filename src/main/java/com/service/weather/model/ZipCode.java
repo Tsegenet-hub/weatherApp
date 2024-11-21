@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * The ZipCode class represents a record of Zipcode data.
+ */
 @Entity
 public class ZipCode {
 

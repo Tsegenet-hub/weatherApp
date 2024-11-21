@@ -6,6 +6,10 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * The DataInitializer class is responsible for initializing the database with some default zip codes.
+ * It checks if the database is empty and, if so, adds a predefined set of zip codes.
+ */
 @Service
 public class DataInitializer {
 

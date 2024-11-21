@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * The ZipCodeService class provides business logic for handling zip code operations.
+ * It interacts with the ZipCodeRepository to perform CRUD operations on zip code data.
+ */
 @Service
 public class ZipCodeService {
 

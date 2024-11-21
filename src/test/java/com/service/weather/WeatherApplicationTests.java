@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class WeatherApplicationTests {
 
-
 	@Mock
 	private RestTemplate restTemplate;
 
@@ -48,6 +47,8 @@ class WeatherApplicationTests {
 		OpenWeatherMapResponse.Wind wind = new OpenWeatherMapResponse.Wind();
 		wind.setSpeed(5.0);
 		OpenWeatherMapResponse.Weather weather = new OpenWeatherMapResponse.Weather();
+		weather.setIcon("10d");
+		weather.setId(800);
 		mockResponse.setMain(main);
 		mockResponse.setWind(wind);
 		mockResponse.setWeather(Arrays.asList(weather));
@@ -69,6 +70,22 @@ class WeatherApplicationTests {
 		assertEquals(50, result.getHumidity());
 		assertEquals(5.0, result.getWindSpeed());
 		assertEquals("New York", result.getCity());
+		assertEquals("https://openweathermap.org/img/wn/10d@2x.png", result.getIcon());
+		assertEquals(800, result.getConditionCode());
 	}
 
+	@Test
+	public void testGetWeatherByZipCodeWithEmptyResponse() {
+		when(restTemplate.getForObject(anyString(), any())).thenReturn(null);
+
+		RuntimeException exception = null;
+		try {
+			weatherService.getWeatherByZipCode(zipCode);
+		} catch (RuntimeException e) {
+			exception = e;
+		}
+
+		assertNotNull(exception);
+		assertEquals("Unable to fetch weather data", exception.getMessage());
+	}
 }

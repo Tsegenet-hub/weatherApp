@@ -5,6 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+/**
+ * The WeatherRecord class represents a record of weather data.
+ */
 @Entity
 public class WeatherRecord {
 
@@ -20,10 +23,11 @@ public class WeatherRecord {
     private double windSpeed;
     private String city;
     private String icon;
+    private int conditionCode;
 
     public WeatherRecord() {}
 
-    public WeatherRecord(String zipCode, double temperature, double feelsLike, double tempMin, double tempMax, int humidity, double windSpeed, String city, String icon) {
+    public WeatherRecord(String zipCode, double temperature, double feelsLike, double tempMin, double tempMax, int humidity, double windSpeed, String city, String icon, int conditionCode) {
         this.zipCode = zipCode;
         this.temperature = temperature;
         this.feelsLike = feelsLike;
@@ -33,6 +37,7 @@ public class WeatherRecord {
         this.windSpeed = windSpeed;
         this.city = city;
         this.icon = icon;
+        this.conditionCode = conditionCode;
     }
 
     public Long getId() {
@@ -113,5 +118,13 @@ public class WeatherRecord {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    public int getConditionCode() {
+        return conditionCode;
+    }
+
+    public void setConditionCode(int conditionCode) {
+        this.conditionCode = conditionCode;
     }
 }

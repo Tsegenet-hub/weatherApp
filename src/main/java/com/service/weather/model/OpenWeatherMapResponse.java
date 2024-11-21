@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+/**
+ * The OpenWeatherMapResponse class represents the response structure from the OpenWeatherMap API.
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OpenWeatherMapResponse {
 
@@ -112,9 +115,18 @@ public class OpenWeatherMapResponse {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Weather {
+        private int id;
         private String icon;
 
         // Getters and setters
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
 
         public String getIcon() {
             return icon;

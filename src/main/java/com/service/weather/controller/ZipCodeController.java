@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The ZipCodeController class handles HTTP requests related to zip codes.
+ * It provides endpoints to fetch all zip codes, add a new zip code, and remove an existing zip code.
+ */
 @RestController
 @RequestMapping("/api/zipcodes")
 public class ZipCodeController {
